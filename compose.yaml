@@ -1,0 +1,36 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8088:8000"
+    environment:
+      APP_ENV: local
+      APP_DEBUG: "true"
+      APP_URL: http://localhost:8088
+      DB_CONNECTION: sqlite
+      DB_DATABASE: /var/www/html/database/database.sqlite
+      SESSION_DRIVER: database
+      CACHE_STORE: database
+      PDD_DATASET_PATH: /var/www/html/storage/app/pdd_russia
+    volumes:
+      - app-config:/var/www/html/docker-config
+      - app-database:/var/www/html/database
+      - question-images:/var/www/html/public/images/questions
+      - app-storage:/var/www/html/storage/framework
+      - app-logs:/var/www/html/storage/logs
+    healthcheck:
+      test: ["CMD", "php", "-r", "$$response = @file_get_contents('http://127.0.0.1:8000/up'); exit($$response === false ? 1 : 0);"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 20s
+    restart: unless-stopped
+
+volumes:
+  app-config:
+  app-database:
+  question-images:
+  app-storage:
+  app-logs:

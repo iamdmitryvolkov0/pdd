@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">ПДД 24/7</title>
+  <path fill="#173f36" d="M32 3 55 12v17c0 15-9.7 25.7-23 32C18.7 54.7 9 44 9 29V12L32 3Z"/>
+  <path fill="#f4f1e8" d="m29 15-9 32h8l4-15 4 15h8l-9-32h-6Z"/>
+  <path fill="#ef6a49" d="M29 36h6l2 7H27l2-7Z"/>
+  <circle cx="32" cy="21" r="3" fill="#f4f1e8"/>
+</svg>

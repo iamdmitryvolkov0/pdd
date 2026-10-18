@@ -24,14 +24,14 @@ init:
 	$(DOCKER_COMPOSE) up -d --wait --wait-timeout 60
 	$(DOCKER_COMPOSE) exec -T $(APP_SERVICE) php artisan migrate --force
 	$(DOCKER_COMPOSE) exec -T $(APP_SERVICE) php artisan pdd:import
-	@echo "Вектор ПДД запущен: http://localhost:8088"
+	@echo "ПДД 24/7 запущен: http://localhost:8088"
 
 build:
 	$(DOCKER_COMPOSE) build
 
 up:
 	$(DOCKER_COMPOSE) up -d --wait --wait-timeout 60
-	@echo "Вектор ПДД доступен: http://localhost:8088"
+	@echo "ПДД 24/7 доступен: http://localhost:8088"
 
 down:
 	$(DOCKER_COMPOSE) down

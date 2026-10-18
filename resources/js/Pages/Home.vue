@@ -1,19 +1,12 @@
 <script setup lang="ts">
 import { Link, router } from '@inertiajs/vue3'
-import { ref } from 'vue'
-import { ArrowRight, BookOpen, ChevronDown, Clock3, Gauge, Layers3, Play, Target, Trophy } from 'lucide-vue-next'
+import { ArrowRight, Gauge, Play, Target, Trophy } from 'lucide-vue-next'
 import AppHeader from '../Components/AppHeader.vue'
 import type { Statistics } from '../types'
 
 const props = defineProps<{ statistics: Statistics; activeSession: { uuid: string; mode: string } | null }>()
-const open = ref(false)
 const start = (mode: string) => router.post('/sessions', { mode })
-const modes = [
-  { title: 'Экзамен', mode: 'exam', icon: Clock3, note: '20 минут · по регламенту' },
-  { title: 'Марафон', mode: 'marathon', icon: Gauge, note: 'Все 800 вопросов' },
-  { title: 'Билеты', href: '/tickets', icon: Layers3, note: '40 классических билетов' },
-  { title: 'Вопросы', href: '/questions', icon: BookOpen, note: 'По номерам во всех билетах' },
-]
+const modeNames: Record<string, string> = { practice: 'практику', exam: 'экзамен', marathon: 'марафон', ticket: 'билет', questions: 'подборку вопросов' }
 </script>
 
 <template>
@@ -26,17 +19,8 @@ const modes = [
         <p class="mt-7 max-w-xl text-lg leading-8 text-[var(--muted)]">Тренажёр категорий A, B и M с официальной логикой экзамена, понятными объяснениями и прогрессом, который не потеряется.</p>
         <div class="mt-9 flex flex-wrap gap-3">
           <button class="lift flex items-center gap-3 rounded-2xl bg-[var(--accent)] px-7 py-4 text-lg font-black text-white" @click="start('practice')"><Play :size="21" fill="currentColor" />Решать</button>
-          <div class="relative">
-            <button class="flex items-center gap-3 rounded-2xl border border-black/15 px-7 py-4 text-lg font-bold dark:border-white/15" :aria-expanded="open" @click="open = !open">Режимы <ChevronDown :size="19" /></button>
-            <div v-if="open" class="card absolute left-0 top-[calc(100%+10px)] z-20 w-80 overflow-hidden p-2">
-              <component :is="item.href ? Link : 'button'" v-for="item in modes" :key="item.title" :href="item.href" class="flex w-full items-center gap-3 rounded-2xl p-3 text-left hover:bg-black/5" @click="item.mode && start(item.mode)">
-                <span class="grid size-11 shrink-0 place-items-center rounded-xl bg-[var(--pine)]/10 text-[var(--pine)]"><component :is="item.icon" :size="20" /></span>
-                <span><b class="block">{{ item.title }}</b><small class="text-[var(--muted)]">{{ item.note }}</small></span>
-              </component>
-            </div>
-          </div>
         </div>
-        <Link v-if="activeSession" :href="`/sessions/${activeSession.uuid}`" class="mt-5 inline-flex items-center gap-2 font-bold text-[var(--pine)]">Продолжить {{ activeSession.mode }} <ArrowRight :size="18" /></Link>
+        <Link v-if="activeSession" :href="`/sessions/${activeSession.uuid}`" class="mt-5 inline-flex items-center gap-2 font-bold text-[var(--pine)]">Продолжить {{ modeNames[activeSession.mode] ?? 'занятие' }} <ArrowRight :size="18" /></Link>
       </div>
       <div class="card relative overflow-hidden p-7 sm:p-9">
         <div class="absolute -right-16 -top-16 size-52 rounded-full bg-[var(--accent)]/10"></div>

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 640" role="img" aria-labelledby="title desc">
+  <title id="title">Интерфейс ПДД 24/7</title><desc id="desc">Главный экран современного тренажёра ПДД</desc>
+  <rect width="1200" height="640" rx="32" fill="#f4f1e8"/>
+  <circle cx="1070" cy="90" r="170" fill="#ef6a49" opacity=".1"/>
+  <image href="brand-mark.svg" x="64" y="48" width="54" height="54"/>
+  <text x="132" y="86" font-family="Arial,sans-serif" font-size="28" font-weight="700" fill="#17211c">ПДД 24/7</text>
+  <rect x="64" y="150" width="200" height="40" rx="20" fill="none" stroke="#173f36" opacity=".45"/>
+  <text x="86" y="176" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#173f36">ПДД без зубрёжки</text>
+  <text x="64" y="270" font-family="Arial,sans-serif" font-size="72" font-weight="800" fill="#17211c">Понимай дорогу.</text>
+  <text x="64" y="350" font-family="Arial,sans-serif" font-size="72" font-weight="800" fill="#ef6a49">Сдавай уверенно.</text>
+  <rect x="64" y="410" width="180" height="68" rx="20" fill="#ef6a49"/><text x="116" y="453" font-family="Arial,sans-serif" font-size="23" font-weight="700" fill="white">Решать</text>
+  <rect x="680" y="150" width="440" height="390" rx="32" fill="white" stroke="#17211c" stroke-opacity=".1"/>
+  <text x="730" y="210" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#68736d">ИЗУЧЕНО</text>
+  <text x="730" y="285" font-family="Arial,sans-serif" font-size="62" font-weight="800" fill="#17211c">356 / 800</text>
+  <rect x="730" y="320" width="340" height="14" rx="7" fill="#e2e0d8"/><rect x="730" y="320" width="151" height="14" rx="7" fill="#ef6a49"/>
+  <rect x="730" y="380" width="155" height="110" rx="22" fill="#173f36"/><text x="755" y="438" font-family="Arial,sans-serif" font-size="34" font-weight="800" fill="white">87%</text><text x="755" y="468" font-family="Arial,sans-serif" font-size="15" fill="#c8ddd6">точность</text>
+  <rect x="915" y="380" width="155" height="110" rx="22" fill="#f8f7f2" stroke="#17211c" stroke-opacity=".12"/><text x="940" y="438" font-family="Arial,sans-serif" font-size="34" font-weight="800" fill="#17211c">24</text><text x="940" y="468" font-family="Arial,sans-serif" font-size="15" fill="#68736d">тренировки</text>
+</svg>

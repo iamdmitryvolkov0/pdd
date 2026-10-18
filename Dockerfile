@@ -4,6 +4,7 @@ WORKDIR /app
 COPY package.json ./
 RUN npm install
 COPY resources ./resources
+COPY public ./public
 COPY vite.config.ts tsconfig.json ./
 RUN npm run build
 

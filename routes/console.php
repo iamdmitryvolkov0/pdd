@@ -3,5 +3,5 @@
 use Illuminate\Support\Facades\Artisan;
 
 Artisan::command('about-pdd', function (): void {
-    $this->info('Вектор ПДД');
+    $this->info('ПДД 24/7');
 });

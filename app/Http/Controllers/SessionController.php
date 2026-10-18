@@ -53,6 +53,9 @@ class SessionController
     public function show(Request $request, PracticeSession $practiceSession): Response
     {
         $this->authorizeVisitor($request, $practiceSession);
+        if ($practiceSession->mode === 'exam' && $practiceSession->status === 'active' && now()->isAfter($practiceSession->expires_at)) {
+            $practiceSession->update(['status' => 'failed', 'completed_at' => now()]);
+        }
         $practiceSession->load(['questions.question.options', 'answers']);
         $answeredByQuestion = $practiceSession->answers->keyBy('question_id');
         $isExamInProgress = $practiceSession->mode === 'exam' && $practiceSession->status === 'active';

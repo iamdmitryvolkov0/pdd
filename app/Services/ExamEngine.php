@@ -15,11 +15,14 @@ class ExamEngine
         $wrongAdditionalAnswers = $wrongAnswers->count() - $wrongMainAnswers->count();
         $wrongByBlock = $this->wrongAnswersByBlock($session, $wrongMainAnswers);
 
-        if (now()->isAfter($session->expires_at) || $wrongAdditionalAnswers > 0 || $wrongMainAnswers->count() >= 3 || $wrongByBlock->max() >= 2) {
+        if (now()->isAfter($session->expires_at)) {
             return ['status' => 'failed'];
         }
         if ($answers->count() < $session->questions->count()) {
             return ['status' => 'active'];
+        }
+        if ($wrongAdditionalAnswers > 0 || $wrongMainAnswers->count() >= 3 || $wrongByBlock->max() >= 2) {
+            return ['status' => 'failed'];
         }
         if ($wrongMainAnswers->isEmpty()) {
             return ['status' => 'passed'];

@@ -13,3 +13,4 @@ Route::get('/sessions/{practiceSession}', [SessionController::class, 'show'])->n
 Route::post('/sessions/{practiceSession}/answers', [SessionController::class, 'answer'])->name('sessions.answer');
 Route::post('/sessions/{practiceSession}/finish', [SessionController::class, 'finish'])->name('sessions.finish');
 Route::get('/statistics', StatisticsController::class)->name('statistics');
+Route::delete('/statistics', [StatisticsController::class, 'destroy'])->name('statistics.destroy');

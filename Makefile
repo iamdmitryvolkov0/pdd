@@ -3,7 +3,7 @@ SHELL := /bin/sh
 DOCKER_COMPOSE := docker compose
 APP_SERVICE := app
 
-.PHONY: help init build up down restart logs shell migrate import status
+.PHONY: help init build up down restart logs shell migrate import status lint
 
 help:
 	@echo "Доступные команды:"
@@ -17,6 +17,7 @@ help:
 	@echo "  make migrate  Выполнить миграции"
 	@echo "  make import   Повторно импортировать вопросы"
 	@echo "  make status   Показать состояние контейнеров"
+	@echo "  make lint     Отформатировать PHP через Laravel Pint"
 
 init:
 	$(DOCKER_COMPOSE) build
@@ -51,3 +52,8 @@ import:
 
 status:
 	$(DOCKER_COMPOSE) ps
+
+lint:
+	$(DOCKER_COMPOSE) build $(APP_SERVICE)
+	$(DOCKER_COMPOSE) up -d --wait --wait-timeout 60 $(APP_SERVICE)
+	$(DOCKER_COMPOSE) exec -T $(APP_SERVICE) ./vendor/bin/pint

@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class SessionQuestion extends Model
 {
     public $timestamps = false;
+
     protected $guarded = [];
-    public function question(): BelongsTo { return $this->belongsTo(Question::class); }
+
+    public function question(): BelongsTo
+    {
+        return $this->belongsTo(Question::class);
+    }
 }

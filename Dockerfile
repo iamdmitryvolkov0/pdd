@@ -11,14 +11,14 @@ FROM composer:2 AS backend
 
 WORKDIR /app
 COPY composer.json ./
-RUN composer install --no-dev --no-interaction --no-progress --prefer-dist --optimize-autoloader --no-scripts
+RUN composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader --no-scripts
 COPY . .
-RUN composer dump-autoload --no-dev --optimize --no-interaction
+RUN composer dump-autoload --optimize --no-interaction
 
 FROM php:8.5-cli-alpine
 
-RUN apk add --no-cache git icu-dev libzip-dev sqlite-dev \
-    && docker-php-ext-install intl pdo_sqlite zip \
+RUN apk add --no-cache git icu-dev libzip-dev oniguruma-dev sqlite-dev \
+    && docker-php-ext-install intl mbstring pdo_sqlite zip \
     && git clone --depth=1 https://github.com/etspring/pdd_russia.git /var/www/html/storage/app/pdd_russia
 
 WORKDIR /var/www/html

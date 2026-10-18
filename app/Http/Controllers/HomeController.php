@@ -14,6 +14,7 @@ class HomeController
     {
         $visitor = $request->attributes->get('visitor');
         $activeSession = PracticeSession::query()->where('visitor_id', $visitor->id)->where('status', 'active')->latest()->first();
+
         return Inertia::render('Home', ['statistics' => $statistics->forVisitor($visitor), 'activeSession' => $activeSession?->only(['uuid', 'mode'])]);
     }
 }

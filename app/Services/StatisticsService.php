@@ -19,6 +19,7 @@ class StatisticsService
         $exams = PracticeSession::query()->where('visitor_id', $visitor->id)->where('mode', 'exam')->whereNotNull('completed_at');
         $examTotal = (clone $exams)->count();
         $examPassed = (clone $exams)->where('status', 'passed')->count();
+
         return ['total_answers' => $total, 'correct_answers' => $correct, 'errors' => $total - $correct, 'accuracy' => $total > 0 ? round($correct / $total * 100) : 0, 'unique_questions' => $unique, 'progress' => round($unique / 800 * 100, 1), 'completed_sessions' => $completed, 'exam_pass_rate' => $examTotal > 0 ? round($examPassed / $examTotal * 100) : 0, 'average_response_seconds' => round(((clone $answers)->avg('response_time_ms') ?? 0) / 1000, 1)];
     }
 

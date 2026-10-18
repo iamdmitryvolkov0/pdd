@@ -23,8 +23,10 @@ class SessionController
         $results = PracticeSession::query()->where('visitor_id', $visitor->id)->where('mode', 'ticket')->whereNotNull('completed_at')->get()->groupBy(fn (PracticeSession $session): int => (int) $session->settings['ticket'])->map(function ($sessions): array {
             $last = $sessions->sortByDesc('completed_at')->first();
             $scores = $sessions->map(fn (PracticeSession $session): int => $session->answers()->where('is_correct', true)->count());
+
             return ['last' => $scores->first(), 'best' => $scores->max(), 'errors' => 20 - $scores->first()];
         });
+
         return Inertia::render('Tickets', ['results' => $results]);
     }
 
@@ -37,9 +39,14 @@ class SessionController
     {
         $data = $request->validate(['mode' => ['required', Rule::in(['practice', 'exam', 'marathon', 'ticket', 'questions'])], 'ticket' => ['nullable', 'integer', 'between:1,40'], 'positions' => ['nullable', 'array'], 'positions.*' => ['integer', 'between:1,20']]);
         $settings = [];
-        if (isset($data['ticket'])) $settings['ticket'] = $data['ticket'];
-        if (isset($data['positions'])) $settings['positions'] = $data['positions'];
+        if (isset($data['ticket'])) {
+            $settings['ticket'] = $data['ticket'];
+        }
+        if (isset($data['positions'])) {
+            $settings['positions'] = $data['positions'];
+        }
         $session = $sessions->start($request->attributes->get('visitor'), $data['mode'], $settings);
+
         return redirect()->route('sessions.show', $session->uuid);
     }
 
@@ -54,11 +61,16 @@ class SessionController
             $answer = $answeredByQuestion->get($question->id);
             $options = $question->options->map(function (AnswerOption $option) use ($answer, $isExamInProgress): array {
                 $payload = ['id' => $option->id, 'position' => $option->position, 'text' => $option->text];
-                if (! $isExamInProgress && $answer !== null) $payload['is_correct'] = (bool) $option->getRawOriginal('is_correct');
+                if (! $isExamInProgress && $answer !== null) {
+                    $payload['is_correct'] = (bool) $option->getRawOriginal('is_correct');
+                }
+
                 return $payload;
             });
+
             return ['id' => $question->id, 'position' => $sessionQuestion->position, 'stage' => $sessionQuestion->stage, 'block' => $sessionQuestion->block_number, 'ticket' => $question->ticket_number, 'text' => $question->text, 'image' => $question->image_path, 'explanation' => $isExamInProgress || $answer === null ? null : $question->explanation, 'options' => $options, 'answer' => $answer?->only(['answer_option_id', 'is_correct'])];
         });
+
         return Inertia::render('Session', ['session' => ['uuid' => $practiceSession->uuid, 'mode' => $practiceSession->mode, 'status' => $practiceSession->status, 'startedAt' => $practiceSession->started_at->toIso8601String(), 'expiresAt' => $practiceSession->expires_at?->toIso8601String(), 'questions' => $questions]]);
     }
 
@@ -74,6 +86,7 @@ class SessionController
             $payload['correctOptionId'] = $question->options()->where('is_correct', true)->value('id');
             $payload['explanation'] = $question->explanation;
         }
+
         return response()->json($payload);
     }
 
@@ -82,10 +95,13 @@ class SessionController
         $this->authorizeVisitor($request, $practiceSession);
         DB::transaction(function () use ($practiceSession): void {
             $session = PracticeSession::query()->lockForUpdate()->findOrFail($practiceSession->id);
-            if ($session->status !== 'active') return;
+            if ($session->status !== 'active') {
+                return;
+            }
             $status = $session->mode === 'exam' ? 'failed' : 'completed';
             $session->update(['status' => $status, 'completed_at' => now(), 'elapsed_seconds' => $session->started_at->diffInSeconds(now())]);
         });
+
         return redirect()->route('sessions.show', $practiceSession->uuid);
     }
 

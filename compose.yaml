@@ -15,6 +15,14 @@ services:
       CACHE_STORE: database
       PDD_DATASET_PATH: /var/www/html/storage/app/pdd_russia
     volumes:
+      - ./artisan:/var/www/html/artisan
+      - ./app:/var/www/html/app
+      - ./bootstrap/app.php:/var/www/html/bootstrap/app.php
+      - ./config:/var/www/html/config
+      - ./database/migrations:/var/www/html/database/migrations
+      - ./routes:/var/www/html/routes
+      - ./pint.json:/var/www/html/pint.json
+      - ./public/index.php:/var/www/html/public/index.php
       - app-config:/var/www/html/docker-config
       - app-database:/var/www/html/database
       - question-images:/var/www/html/public/images/questions
